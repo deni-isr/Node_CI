@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x, 22.x]
 
     services:
       mysql:
@@ -28,7 +28,7 @@ jobs:
           --health-cmd="mysqladmin ping"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
     steps:
       - name: Checkout repository
@@ -43,12 +43,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Security Audit
-        run: npm audit --audit-level=high || true
+      - name: Install MySQL Client CLI
+        run: sudo apt-get update && sudo apt-get install -y default-mysql-client
 
       - name: Import Database Schema
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpassword testdb < db/create-db.sql || true
+          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpassword testdb < db/create-db.sql
+
+      - name: Run Security Audit
+        run: npm audit --audit-level=high || true
 
       - name: Run Tests
         env:
