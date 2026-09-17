@@ -19,7 +19,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: cicdtest
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpassword
         ports:
@@ -48,7 +48,7 @@ jobs:
 
       - name: Import Database Schema
         run: |
-          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpassword testdb < db/create-db.sql
+          mysql -h 127.0.0.1 -P 3306 -u root -prootpassword < db/create-db.sql
 
       - name: Run Security Audit
         run: npm audit --audit-level=high || true
@@ -58,8 +58,8 @@ jobs:
           NODE_ENV: test
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
-          DB_NAME: testdb
-          DB_USER: testuser
-          DB_PASS: testpassword
+          DB_NAME: cicdtest
+          DB_USER: root
+          DB_PASS: rootpassword
           PORT: 3000
         run: npm test

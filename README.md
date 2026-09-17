@@ -10,6 +10,5 @@
 
 ## Ohjeet ja käyttö
 
-- Asenna riippuvuudet: `npm install`
-- Aja testit paikallisesti: `npm test`
-- CI/CD-putki käynnistyy automaattisesti jokaisesta `git push` -komennosta main-haaraan.
+Asenna riippuvuudet: `npm install`
+Aja testit paikallisesti: `npm test`
